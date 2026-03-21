@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+<title>MANIFEST — World‑building coding competition</title>
+</head>
+<body>
+
+<!-- Intro -->
+<div class="intro" id="intro">
+  <button class="skip-btn" id="skipBtn">Skip intro</button>
+  <div class="intro-inner">
+    <div class="intro-lines" id="introLines"></div>
+  </div>
+</div>
+
+<!-- Site -->
+<div class="site" id="site" aria-hidden="true">
+  <canvas class="particles" id="particles"></canvas>
+
+  <header>
+    <div class="brand">
+      <div class="logo">M</div>
+      <div>
+        <div style="font-size:13px;color:var(--muted)">MANIFEST</div>
+        <div style="font-size:11px;color:var(--muted)">Code that becomes a world</div>
+      </div>
+    </div>
+<div class="nav-blocks">
+
+  <div class="nav-block" style="--i:1; top:4px;  animation-duration:18s; animation-delay:-0s;"></div>
+  <div class="nav-block" style="--i:2; top:14px; animation-duration:20s; animation-delay:-5s;"></div>
+  <div class="nav-block" style="--i:3; top:24px; animation-duration:22s; animation-delay:-10s;"></div>
+  <div class="nav-block" style="--i:4; top:34px; animation-duration:24s; animation-delay:-15s;"></div>
+  <div class="nav-block" style="--i:5; top:44px; animation-duration:26s; animation-delay:-20s;"></div>
+  <div class="nav-block" style="--i:6; top:54px; animation-duration:28s; animation-delay:-25s;"></div>
+  <div class="nav-block" style="--i:7; top:64px; animation-duration:30s; animation-delay:-30s;"></div>
+  <div class="nav-block" style="--i:8; top:74px; animation-duration:32s; animation-delay:-35s;"></div>
+
+</div>
+
+
+
+
+  </header>
+
+  <main class="hero">
+    <div class="hero-inner">
+      <div class="tagline">This summer, what if you helped build a simulation. Introducing...</div>
+      <h1 class="title">MANIFEST</h1>
+      <p class="subtitle" id="about">
+        A Hack Club <a href="https://ysws.hackclub.com" target="_blank" rel="noopener noreferrer">YSWS</a> where you start from a blank world and bring it to life through pull requests.
+        Add forests, portals, creatures, rules, and stories — it's all up to you. Every merged change reshapes the world. Earn coins with each pr, and spend them in our shop!
+      </p>
+      <div class="cta-row">
+        <button class="btn primary" id="ctaRepo">Open the repo</button>
+        <button class="btn" id="ctaGuide">Read the builder’s guide</button>
+        <button class="btn" id="ctaSlack">Join #manifest</button>
+      </div>
+      <p class="subtitle" id="rules" style="font-size:13px;max-width:520px;opacity:0.9">
+        Fork the world • Add something <span id="rotatingWord">meaningful</span> • Open a pull request • 
+        Your vision becomes a part of the world
+      </p>
+      <p class="subtitle" id="timeline" style="font-size:13px;max-width:520px;opacity:0.9">
+        Kickoff, code, review, merge, and watch the world unfold over a few thrilling weeks of building.
+      </p>
+    </div>
+    <div class="hero-media">
+  <div class="frame">
+    <img src="https://cdn.hackclub.com/019d1191-b4c2-7eed-9e64-4bd008699cbe/img_0347.jpg" alt="Manifest Orph">
+  </div>
+</div>
+  </main>
+
+  <footer>
+    <div>© 2026 Hack Club. 501(c)(3) nonprofit (EIN: 81-2908499)</div>
+  </footer>
+</div>
+
+<script>
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days*24*60*60*1000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+  }
+
+  function getCookie(name) {
+    return document.cookie.split("; ").find(row => row.startsWith(name + "="))?.split("=")[1];
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const intro = document.querySelector(".intro");
+
+    if (!getCookie("seenIntro")) {
+      setCookie("seenIntro", "true", 365);
+
+    } else {
+      intro.classList.add("hidden");
+    }
+  });
+</script>
+
+
+<script>
+const lines = [
+  "Booting up a blank world...",
+  "Every pull request adds something real.",
+  "Trees. Portals. Creatures. Physics. Lore.",
+  "Welcome to MANIFEST — where code becomes a world."
+];
+
+const introEl = document.getElementById('intro');
+const introLinesEl = document.getElementById('introLines');
+const skipBtn = document.getElementById('skipBtn');
+const siteEl = document.getElementById('site');
+
+let typed = '';
+let currentLine = 0;
+let charIndex = 0;
+let firstLineShown = false;
+let typeTimer = null;
+
+function typeNextChar(){
+  if(currentLine >= lines.length){
+    finishIntro();
+    return;
+  }
+  const line = lines[currentLine];
+  if(charIndex === 0 && !firstLineShown){
+    firstLineShown = true;
+    skipBtn.classList.add('visible');
+  }
+  typed += line[charIndex] || '';
+  introLinesEl.textContent = typed + (charIndex < line.length ? '▌' : '');
+  charIndex++;
+  if(charIndex > line.length){
+    typed += '\n';
+    currentLine++;
+    charIndex = 0;
+    clearTimeout(typeTimer);
+    typeTimer = setTimeout(typeNextChar, 700);
+  } else {
+    typeTimer = setTimeout(typeNextChar, 28 + Math.random()*40);
+  }
+}
+
+function finishIntro(){
+  introEl.style.transition = 'opacity .6s ease, transform .6s ease';
+  introEl.style.opacity = '0';
+  introEl.style.transform = 'scale(.98)';
+  setTimeout(()=> {
+    introEl.remove();
+    siteEl.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'auto';
+    document.getElementById('mainTitle').style.transform = 'translateY(-6px)';
+  }, 620);
+}
+
+skipBtn.addEventListener('click', () => {
+  clearTimeout(typeTimer);
+  finishIntro();
+});
+
+setTimeout(typeNextChar, 420);
+
+const particlesEl = document.getElementById('particles');
+(function createParticles(){
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS,'svg');
+  svg.setAttribute('width','100%');
+  svg.setAttribute('height','100%');
+  svg.setAttribute('viewBox','0 0 100 100');
+  svg.style.position='absolute';
+  svg.style.inset='0';
+  svg.style.opacity='0.9';
+  for(let i=0;i<30;i++){
+    const c = document.createElementNS(svgNS,'circle');
+    const x = Math.random()*100;
+    const y = Math.random()*100;
+    const r = 0.2 + Math.random()*0.9;
+    c.setAttribute('cx',x);
+    c.setAttribute('cy',y);
+    c.setAttribute('r',r);
+    c.setAttribute('fill','white');
+    c.setAttribute('opacity', (0.02 + Math.random()*0.08).toString());
+    svg.appendChild(c);
+  }
+  particlesEl.appendChild(svg);
+})();
+
+const ctaRepo = document.getElementById('ctaRepo');
+const ctaGuide = document.getElementById('ctaGuide');
+const navJoin = document.getElementById('navJoin');
+
+ctaRepo.addEventListener('click', () => {
+  alert('The repo will be added when Manifest launches!');
+});
+ctaGuide.addEventListener('click', () => {
+  alert('Coming soon! The guide will walk you through how to contribute to the world, with tips and inspiration to get you started.');
+});
+
+ctaSlack.addEventListener('click', () => {
+  window.open('https://app.slack.com/client/E09V59WQY1E/C0AMKSE3J9Z', '_blank');
+});
+
+const rotatingWords = [
+  "meaningful",
+  "unexpected",
+  "beautiful",
+  "chaotic",
+  "alive",
+  "weird",
+  "elegant"
+];
+
+let rotateIndex = 0;
+const rotatingEl = document.getElementById("rotatingWord");
+
+setInterval(() => {
+  rotateIndex = (rotateIndex + 1) % rotatingWords.length;
+  rotatingEl.textContent = rotatingWords[rotateIndex];
+}, 3000);
+
+rotatingEl.classList.add("word-change");
+setTimeout(() => rotatingEl.classList.remove("word-change"), 300);
+
+
+</script>
+</body>
+</html>

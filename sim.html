@@ -1,0 +1,44 @@
+<!-- WIP -->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Simulation</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <noscript>
+    <div style="background:#ffefc6;padding:8px;border:1px solid #e6c07a;">
+      JavaScript is required for this page to work. Please enable JavaScript in your browser.
+    </div>
+  </noscript>
+
+  <div id="app">
+    <div id="viewport-wrap">
+      <div id="viewport" tabindex="0" role="application" aria-label="3D viewport">
+        <div id="scene" aria-hidden="false"></div>
+        <div id="crosshair" aria-hidden="true"></div>
+        <div id="hud" class="small" aria-live="polite">
+          Click to lock pointer. WASD to move, Space to jump. Left-click remove, Right-click place.
+        </div>
+      </div>
+    </div>
+
+    <aside id="ui" aria-label="Controls and inventory">
+      <h3>Inventory</h3>
+      <div id="inventory" class="inventory" role="list"></div>
+
+      <div class="controls" role="group" aria-label="Simulation controls">
+        <button id="regen" type="button">Regenerate</button>
+        <button id="resetCam" type="button">Reset Camera</button>
+      </div>
+
+      <div class="small">Selected: <span id="selName" aria-live="polite"></span></div>
+      <div class="small">To add a block: edit the <code>BLOCK_TYPES</code> array in the script.</div>
+    </aside>
+  </div>
+</body>
+</html>
