@@ -15,7 +15,8 @@ body{
   color:var(--fg);
   font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   -webkit-font-smoothing:antialiased;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 
 body::after {
@@ -68,11 +69,13 @@ body::after {
 
 .site{
   position:relative;
-  height:100vh;
+  min-height:100vh; 
+  height:auto;
   display:flex;
   flex-direction:column;
-  overflow:hidden;
+  overflow:visible;
 }
+
 
 header{
   padding:16px 28px;
@@ -112,17 +115,18 @@ nav a:hover{
   background:#1a1a1a;
 }
 
-.hero{
+.hero {
   flex:1;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:40px 24px;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(77,212,168,0.15), transparent 70%),
-    radial-gradient(circle at 80% 80%, rgba(127,211,255,0.1), transparent 60%);
-  animation: drift 18s ease-in-out infinite;
+  background:#0f0f0f;
+  gap:60px;
+  text-align:left;
+  flex-wrap:wrap;
 }
+
 
 @keyframes drift {
   0% { background-position: 0% 0%; }
@@ -219,15 +223,22 @@ nav a:hover{
   transform: rotate(-3deg) scale(1.05);
 }
 
-footer{
-  padding:16px 28px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-top:1px solid #1a1a1a;
-  font-size:13px;
-  color:var(--muted);
+footer {
+  padding: 20px 28px;
+  background: #0c0c0c;
+  border-top: 1px solid #1f1f1f;
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  opacity: 0.85;
 }
+
+footer:hover {
+  opacity: 1;
+}
+
 
 .particles{
   display:none;
@@ -348,10 +359,11 @@ a:hover::after {
 }
 
 .frame img {
-  display: block;
-  width: 260px;
-  height: auto;
-  border-radius: 4px;
+  display:block;
+  width:100%;
+  max-width:260px;
+  height:auto;
+  border-radius:4px;
 }
 
 @media (max-width: 800px) {
@@ -367,4 +379,33 @@ a:hover::after {
   .hero-media {
     transform: rotate(0deg);
   }
+}
+
+
+.faq {
+  padding: 60px 28px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq h2 {
+  font-size: 32px;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.faq-item {
+  margin-bottom: 24px;
+}
+
+.faq-item h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: var(--accent-secondary);
+}
+
+.faq-item p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
 }
